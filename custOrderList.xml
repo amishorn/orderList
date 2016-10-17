@@ -1,0 +1,49 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<OrderList>
+    <Section Name="Beverages"  Visible="true">
+        <Item Name="Cola">
+            <Entity>Bot</Entity>
+            <Quantity>2</Quantity>
+        </Item>
+        <Item Name="Water">
+            <Entity>Bot</Entity>
+            <Quantity>6</Quantity>
+        </Item>
+        <Item Name="Beer">
+            <Entity>Cart</Entity>
+            <Quantity>1</Quantity>
+            <Note>for week end trip</Note>
+        </Item>
+    </Section>
+    <Section Name="Meet" Visible="true">
+        <Item Name="Ham">
+            <Entity>Pk</Entity>
+            <Quantity>1</Quantity>
+            <Note>>10 slices</Note>
+        </Item>
+        <Item Name="Salami Nostrano">
+            <Entity>Pcs</Entity>
+            <Quantity>1</Quantity>
+        </Item>
+    </Section>
+    <Section Name="Tools and Material" Visible="true">
+        <Item Name="Screw driver">
+            <Entity>Pcs</Entity>
+            <Quantity>3</Quantity>
+        </Item>
+        <Item Name="Nails">
+            <Entity>Pk</Entity>
+            <Quantity>1</Quantity>
+            <Note>for the nail gun</Note>
+        </Item>
+        <Item Name="Woodscrew 2 inch">
+            <Entity>Pk</Entity>
+            <Quantity>1</Quantity>
+        </Item>
+        <Item Name="spade">
+            <Entity>Pcs</Entity>
+            <Quantity>1</Quantity>
+            <Note>for the garden shed</Note>
+        </Item>
+    </Section>
+</OrderList>
