@@ -15,6 +15,8 @@
 #include <QTextStream>
 #include "olModel.h"
 
+#include <QDebug>
+
 OLModel::OLModel(QObject *parent) : QAbstractListModel(parent) {
 
     importList();
@@ -147,11 +149,13 @@ bool OLModel::importList() {
         for(int j=0; j<itemList.count(); j++) {
             QDomNode n = itemList.at(j);
             QDomNode nN = n.attributes().namedItem(_xmlName).firstChild();
+            QDomNode nS = n.namedItem(_xmlSel).firstChild();
             QDomNode nE = n.namedItem(_xmlEntity).firstChild();
             QDomNode nQ = n.namedItem(_xmlQuantity).firstChild();
             QDomNode nNd = n.namedItem(_xmlNote).firstChild();
 
-            addNewItem((sV.nodeValue().compare("true", Qt::CaseInsensitive) == 0), sS.nodeValue(), nN.nodeValue(), nE.nodeValue(), nQ.nodeValue(), nNd.nodeValue());
+            addNewItem((sV.nodeValue().compare("true", Qt::CaseInsensitive) == 0), sS.nodeValue(), nN.nodeValue(),
+                       (nS.nodeValue().compare("true", Qt::CaseInsensitive) == 0), nE.nodeValue(), nQ.nodeValue(), nNd.nodeValue());
         }
     }
 
@@ -195,15 +199,18 @@ bool OLModel::exportList() {
 
     while(index < _oList.count()) {
 
+        // create a section if it doesn't exist already or is null
         if((sec != _oList[index]->section()) || secNode.isNull()) {
             sec = _oList[index]->section();
             secNode = addNode(doc, root, _xmlSec);
             secNode.setAttribute(_xmlName, sec);
-            secNode.setAttribute(_xmlFolded, (_oList[index]->folded() ? "true" : "false"));
+            secNode.setAttribute(_xmlFolded, "true"); //(_oList[index]->folded() ? "true" : "false"));
         }
 
+        // add item to appropriate section
         QDomElement itemNode = addNode(doc, secNode, _xmlItem);
         itemNode.setAttribute(_xmlName, _oList[index]->name());
+        addNode(doc, itemNode, _xmlSel, (_oList[index]->selected() ? "true" : "false"));
         addNode(doc, itemNode, _xmlEntity, _oList[index]->entity());
         addNode(doc, itemNode, _xmlQuantity, _oList[index]->quantity());
         addNode(doc, itemNode, _xmlNote, _oList[index]->note());
@@ -218,6 +225,52 @@ bool OLModel::exportList() {
     return true;
 }
 
+void OLModel::clearSelection() {
+
+    foreach(OListItem* sel, _oList)
+        sel->setSelected(false);
+
+    qDebug() << "cleared";
+}
+
+void OLModel::addNewItem(bool folded, QString section, QString name, bool selected, QString entity, QString quantity, QString note) {
+
+    int index = 0;
+    OListItem *newShlItem = new OListItem(folded, section, name, selected, entity, quantity, note);
+
+    /* search for first match */
+    while(index < _oList.count())
+        if(_oList[index]->section() != newShlItem->section()) index++;
+        else break;
+
+    /* search for last match */
+    while(index < _oList.count())
+        if(_oList[index]->section() == newShlItem->section()) index++;
+        else break;
+
+    beginInsertRows(QModelIndex(), index, index);
+    _oList.insert(index, newShlItem);
+    endInsertRows();
+
+}
+
+void OLModel::replaceItem(int index, bool folded, QString section, QString name, bool selected, QString entity, QString quantity, QString note) {
+
+    OListItem *newShlItem = new OListItem(folded, section, name, selected, entity, quantity, note);
+
+    if(_oList[index]->section() != newShlItem->section()) {
+        beginRemoveRows(QModelIndex(), index, index);
+        _oList.removeAt(index);
+        endRemoveRows();
+
+        addNewItem(folded, section, name, selected, entity, quantity, note);
+    }
+    else {
+        _oList.replace(index, newShlItem);
+        emit QAbstractItemModel::dataChanged(createIndex(index,1), createIndex(index,1), roleNames().keys().toVector());
+    }
+}
+
 void OLModel::removeItem(int index) {
 
     beginRemoveRows(QModelIndex(), index, index);
@@ -228,8 +281,10 @@ void OLModel::removeItem(int index) {
 void OLModel::moveItemUp(int index) {
 
     if(index > 0) {
-        if(_oList[index]->section() != _oList[index-1]->section())
+        if(_oList[index]->section() != _oList[index-1]->section()) {
             _oList[index]->setSection(_oList[index-1]->section());
+            _oList[index]->setFolded(_oList[index-1]->folded());
+        }
         else {
             beginMoveRows(QModelIndex(), index, index, QModelIndex(), index -1);
             _oList.move(index, index -1);
@@ -241,8 +296,10 @@ void OLModel::moveItemUp(int index) {
 void OLModel::moveItemDown(int index) {
 
     if((index < count())) {
-        if(_oList[index]->section() != _oList[index+1]->section())
+        if(_oList[index]->section() != _oList[index+1]->section()) {
             _oList[index]->setSection(_oList[index+1]->section());
+            _oList[index]->setFolded(_oList[index+1]->folded());
+        }
         else {
             beginMoveRows(QModelIndex(), index, index, QModelIndex(), index +2);
             _oList.move(index, index +1);
@@ -310,47 +367,9 @@ void OLModel::moveSectionDown(QString section) {
     }
 }
 
-OListItem *OLModel::newItem(bool folded, QString section, QString name, QString entity, QString quantity, QString note) {
+OListItem *OLModel::newItem(bool folded, QString section, QString name, QString entity, bool selected, QString quantity, QString note) {
 
-    return new OListItem(folded, section, name, entity, quantity, note);
-}
-
-void OLModel::addNewItem(bool folded, QString section, QString name, QString entity, QString quantity, QString note) {
-
-    int index = 0;
-    OListItem *newShlItem = new OListItem(folded, section, name, entity, quantity, note);
-
-    /* search for first match */
-    while(index < _oList.count())
-        if(_oList[index]->section() != newShlItem->section()) index++;
-        else break;
-
-    /* search for last match */
-    while(index < _oList.count())
-        if(_oList[index]->section() == newShlItem->section()) index++;
-        else break;
-
-    beginInsertRows(QModelIndex(), index, index);
-    _oList.insert(index, newShlItem);
-    endInsertRows();
-}
-
-void OLModel::replaceItem(int index, bool folded, QString section, QString name, QString entity, QString quantity, QString note) {
-
-    OListItem *newShlItem = new OListItem(folded, section, name, entity, quantity, note);
-
-    if(_oList[index]->section() != newShlItem->section()) {
-        beginRemoveRows(QModelIndex(), index, index);
-        _oList.removeAt(index);
-        endRemoveRows();
-
-        addNewItem(folded, section, name, entity, quantity, note);
-//        addNewItem(newShlItem);
-    }
-    else {
-        _oList.replace(index, newShlItem);
-        emit QAbstractItemModel::dataChanged(createIndex(index,1), createIndex(index,1), roleNames().keys().toVector());
-    }
+    return new OListItem(folded, section, name, selected, entity, quantity, note);
 }
 
 void OLModel::setFolded(int index, bool folded) {
@@ -410,7 +429,7 @@ QString OLModel::getOrderListTxt() {
             oListTxt += ("- " + (*i)->quantity() +
                          "\t" + (*i)->entity() +
                          "\t" + (*i)->name() +
-                         " (" + (*i)->note() + ")\n");
+                         (((*i)->note() != "") ? "" : ("(" + (*i)->note() + ")\n")));
         }
         i++;
     }

@@ -16,7 +16,8 @@ class OListItem : public QObject
 
 public:
     explicit OListItem(QObject *parent=0);
-    explicit OListItem(const bool folded, const QString section, const QString name, const QString entity, const QString quantity, const QString note, QObject *parent=0);
+    explicit OListItem(const bool folded, const QString section, const QString name, const bool selected,
+                       const QString entity, const QString quantity, const QString note, QObject *parent=0);
 
     bool selected() const;
     void setSelected(bool state);

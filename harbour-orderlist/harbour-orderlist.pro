@@ -63,5 +63,6 @@ DISTFILES += \
     rpm/harbour-orderlist.changes.in \
     rpm/harbour-orderlist.spec \
     rpm/harbour-orderlist.yaml \
-    qml/harbour-orderlist.qml
+    qml/harbour-orderlist.qml \
+    qml/pages/QuantSelector.qml
 

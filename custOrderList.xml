@@ -1,49 +1,431 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <OrderList>
-    <Section Name="Beverages"  Visible="true">
-        <Item Name="Cola">
-            <Entity>Bot</Entity>
-            <Quantity>2</Quantity>
+    <Section Folded="true" Name="Getränke">
+        <Item Name="Alternative,  Moscato Spumante">
+			<Selected>false</Selected>
+            <Entity>Fl</Entity>
+            <Quantity>1</Quantity>
+            <Note/>
         </Item>
-        <Item Name="Water">
-            <Entity>Bot</Entity>
-            <Quantity>6</Quantity>
+        <Item Name="Kochwein rot">
+			<Selected>false</Selected>
+            <Entity>Fl</Entity>
+            <Quantity>1</Quantity>
+            <Note/>
         </Item>
-        <Item Name="Beer">
+        <Item Name="Kochwein weiss">
+			<Selected>false</Selected>
+            <Entity>Fl</Entity>
+            <Quantity>1</Quantity>
+            <Note/>
+        </Item>
+        <Item Name="Wilisauer Zwetschgen 45%">
+			<Selected>false</Selected>
+            <Entity>Fl</Entity>
+            <Quantity>1</Quantity>
+            <Note/>
+        </Item>
+        <Item Name="Bier Eichhof Lager 33cl">
+			<Selected>false</Selected>
             <Entity>Cart</Entity>
             <Quantity>1</Quantity>
-            <Note>for week end trip</Note>
+            <Note/>
+        </Item>
+        <Item Name="Orangenjus">
+			<Selected>false</Selected>
+            <Entity>Cart</Entity>
+            <Quantity>1</Quantity>
+            <Note>Wenn Aktion</Note>
+        </Item>
+        <Item Name="Coca Cola 0.5lt">
+			<Selected>false</Selected>
+            <Entity>Cart</Entity>
+            <Quantity>1</Quantity>
+            <Note/>
         </Item>
     </Section>
-    <Section Name="Meet" Visible="true">
-        <Item Name="Ham">
+    <Section Folded="true" Name="Gemüse">
+        <Item Name="Peperoni assortiert à 3 Stk">
+			<Selected>false</Selected>
             <Entity>Pk</Entity>
             <Quantity>1</Quantity>
-            <Note>>10 slices</Note>
+            <Note/>
         </Item>
-        <Item Name="Salami Nostrano">
-            <Entity>Pcs</Entity>
+        <Item Name="Gurke">
+			<Selected>false</Selected>
+            <Entity>Stk</Entity>
             <Quantity>1</Quantity>
+            <Note>Gemüsegurke</Note>
         </Item>
-    </Section>
-    <Section Name="Tools and Material" Visible="true">
-        <Item Name="Screw driver">
-            <Entity>Pcs</Entity>
+        <Item Name="Salat">
+			<Selected>false</Selected>
+            <Entity>Stk</Entity>
+            <Quantity>1</Quantity>
+            <Note>Kopf- oder Eisbergsalat</Note>
+        </Item>
+        <Item Name="Cherry Tomaten">
+			<Selected>false</Selected>
+            <Entity>Pk</Entity>
+            <Quantity>1</Quantity>
+            <Note/>
+        </Item>
+        <Item Name="Tomaten">
+			<Selected>false</Selected>
+            <Entity>Pk</Entity>
+            <Quantity>1</Quantity>
+            <Note/>
+        </Item>
+        <Item Name="Zwiebeln">
+			<Selected>false</Selected>
+            <Entity>Pk</Entity>
+            <Quantity>1</Quantity>
+            <Note/>
+        </Item>
+        <Item Name="Lauchstengel">
+			<Selected>false</Selected>
+            <Entity>Stk</Entity>
+            <Quantity>1</Quantity>
+            <Note>Von Migros</Note>
+        </Item>
+        <Item Name="Rhabarber">
+			<Selected>false</Selected>
+            <Entity>Pk</Entity>
+            <Quantity>1</Quantity>
+            <Note>Ca. 500g</Note>
+        </Item>
+        <Item Name="Melonen Charentais">
+			<Selected>false</Selected>
+            <Entity>Stk</Entity>
             <Quantity>3</Quantity>
+            <Note>Nur, wenn ihr 1/2 nehmt.</Note>
         </Item>
-        <Item Name="Nails">
+        <Item Name="Kartoffeln Festkochend">
+			<Selected>false</Selected>
             <Entity>Pk</Entity>
             <Quantity>1</Quantity>
-            <Note>for the nail gun</Note>
+            <Note>1.5kg</Note>
         </Item>
-        <Item Name="Woodscrew 2 inch">
+    </Section>
+    <Section Folded="true" Name="Frischprodukte">
+        <Item Name="Eier roh">
+			<Selected>false</Selected>
             <Entity>Pk</Entity>
             <Quantity>1</Quantity>
+            <Note/>
         </Item>
-        <Item Name="spade">
-            <Entity>Pcs</Entity>
+        <Item Name="Eier gekocht (fest)">
+			<Selected>false</Selected>
+            <Entity>Pk</Entity>
             <Quantity>1</Quantity>
-            <Note>for the garden shed</Note>
+            <Note>6 Stk</Note>
+        </Item>
+        <Item Name="Drink Milch">
+			<Selected>false</Selected>
+            <Entity>Cart</Entity>
+            <Quantity>1</Quantity>
+            <Note>Wenn Aktion</Note>
+        </Item>
+        <Item Name="Milch 3.5%">
+			<Selected>false</Selected>
+            <Entity>Cart</Entity>
+            <Quantity>1</Quantity>
+            <Note>1.5lt</Note>
+        </Item>
+        <Item Name="Saurer Halbrahm">
+			<Selected>false</Selected>
+            <Entity>Stk</Entity>
+            <Quantity>1</Quantity>
+            <Note>180gr</Note>
+        </Item>
+        <Item Name="Käsekuchenmischung Quality 1kg">
+			<Selected>false</Selected>
+            <Entity>Pk</Entity>
+            <Quantity>1</Quantity>
+            <Note>1kg</Note>
+        </Item>
+        <Item Name="Käse assortiert">
+			<Selected>false</Selected>
+            <Entity>Pk</Entity>
+            <Quantity>1</Quantity>
+            <Note/>
+        </Item>
+        <Item Name="Halbrahm">
+			<Selected>false</Selected>
+            <Entity>Stk</Entity>
+            <Quantity>1</Quantity>
+            <Note>1 lt</Note>
+        </Item>
+        <Item Name="Gruyer Schmelzkäse">
+			<Selected>false</Selected>
+            <Entity>Pk</Entity>
+            <Quantity>1</Quantity>
+            <Note>Pk à 45 Scheiben</Note>
+        </Item>
+        <Item Name="Butter">
+			<Selected>false</Selected>
+            <Entity>Stk</Entity>
+            <Quantity>1</Quantity>
+            <Note>250gr</Note>
+        </Item>
+        <Item Name="Chaumes">
+			<Selected>false</Selected>
+            <Entity>Stk</Entity>
+            <Quantity>1</Quantity>
+            <Note>200g</Note>
+        </Item>
+        <Item Name="Appenzeller classic">
+			<Selected>false</Selected>
+            <Entity>Stk</Entity>
+            <Quantity>1</Quantity>
+            <Note>1/4 Laib</Note>
+        </Item>
+        <Item Name="Luzerner Rahmkäse">
+			<Selected>false</Selected>
+            <Entity>Stk</Entity>
+            <Quantity>1</Quantity>
+            <Note>1/4 Laib</Note>
+        </Item>
+        <Item Name="Cristallina Jogurt">
+			<Selected>false</Selected>
+            <Entity>Cart</Entity>
+            <Quantity>1</Quantity>
+            <Note>10 Stk Assortiert</Note>
+        </Item>
+        <Item Name="Mozzarella Galbani">
+			<Selected>false</Selected>
+            <Entity>Stk</Entity>
+            <Quantity>1</Quantity>
+            <Note>1kg Chlompe</Note>
+        </Item>
+        <Item Name="Marroni">
+			<Selected>false</Selected>
+            <Entity>Pk</Entity>
+            <Quantity>1</Quantity>
+            <Note>1kg</Note>
+        </Item>
+    </Section>
+    <Section Folded="true" Name="Fleisch">
+        <Item Name="Salami Nostrano">
+			<Selected>false</Selected>
+            <Entity>Stk</Entity>
+            <Quantity>1</Quantity>
+            <Note/>
+        </Item>
+        <Item Name="Salami Picante">
+			<Selected>false</Selected>
+            <Entity>Stk</Entity>
+            <Quantity>1</Quantity>
+            <Note/>
+        </Item>
+        <Item Name="Salami Flute">
+			<Selected>false</Selected>
+            <Entity>Stk</Entity>
+            <Quantity>1</Quantity>
+            <Note/>
+        </Item>
+        <Item Name="Hackfleisch">
+			<Selected>false</Selected>
+            <Entity>Pk</Entity>
+            <Quantity>1</Quantity>
+            <Note>1kg</Note>
+        </Item>
+        <Item Name="Hinterschinken in Scheiben">
+			<Selected>false</Selected>
+            <Entity>Pk</Entity>
+            <Quantity>1</Quantity>
+            <Note>Ca. 500gr</Note>
+        </Item>
+        <Item Name="Wadtländer Saucisson">
+			<Selected>false</Selected>
+            <Entity>Stk</Entity>
+            <Quantity>1</Quantity>
+            <Note/>
+        </Item>
+        <Item Name="Schweinsfilet">
+			<Selected>false</Selected>
+            <Entity>Stk</Entity>
+            <Quantity>1</Quantity>
+            <Note>Ca. 800 - 1000g</Note>
+        </Item>
+        <Item Name="Bratspeck geräuchert geschnitten">
+			<Selected>false</Selected>
+            <Entity>Pk</Entity>
+            <Quantity>1</Quantity>
+            <Note>Ca. 500g</Note>
+        </Item>
+        <Item Name="Speckwürfel">
+			<Selected>false</Selected>
+            <Entity>Pk</Entity>
+            <Quantity>1</Quantity>
+            <Note>Ca. 300 - 500g</Note>
+        </Item>
+        <Item Name="Suure Mocke">
+			<Selected>false</Selected>
+            <Entity>Stk</Entity>
+            <Quantity>1</Quantity>
+            <Note>Ca. 1kg</Note>
+        </Item>
+        <Item Name="Lyoner">
+			<Selected>false</Selected>
+            <Entity>Stk</Entity>
+            <Quantity>1</Quantity>
+            <Note>1kg</Note>
+        </Item>
+        <Item Name="Schweinsbratwurst">
+			<Selected>false</Selected>
+            <Entity>Pk</Entity>
+            <Quantity>1</Quantity>
+            <Note>4x150 gr</Note>
+        </Item>
+    </Section>
+    <Section Folded="true" Name="Food">
+        <Item Name="Cm plus - Waldbeeren">
+			<Selected>false</Selected>
+            <Entity>Pk</Entity>
+            <Quantity>1</Quantity>
+            <Note/>
+        </Item>
+        <Item Name="Cm plus - Chnusper mix">
+			<Selected>false</Selected>
+            <Entity>Pk</Entity>
+            <Quantity>1</Quantity>
+            <Note/>
+        </Item>
+        <Item Name="Chips Zweifel Snacketti Paprika 250g">
+			<Selected>false</Selected>
+            <Entity>Pk</Entity>
+            <Quantity>1</Quantity>
+            <Note/>
+        </Item>
+        <Item Name="Fajita Fladen gross">
+			<Selected>false</Selected>
+            <Entity>Pk</Entity>
+            <Quantity>1</Quantity>
+            <Note/>
+        </Item>
+        <Item Name="Fajita Sauce medium">
+			<Selected>false</Selected>
+            <Entity>Stk</Entity>
+            <Quantity>1</Quantity>
+            <Note/>
+        </Item>
+        <Item Name="Fajita-Gewürz">
+			<Selected>false</Selected>
+            <Entity>Pk</Entity>
+            <Quantity>3</Quantity>
+            <Note>Portionen-Beutel</Note>
+        </Item>
+        <Item Name="Cornichons">
+			<Selected>false</Selected>
+            <Entity>Cart</Entity>
+            <Quantity>1</Quantity>
+            <Note/>
+        </Item>
+        <Item Name="Silberzwiebeln">
+			<Selected>false</Selected>
+            <Entity>Cart</Entity>
+            <Quantity>1</Quantity>
+            <Note/>
+        </Item>
+        <Item Name="Ananasscheiben">
+			<Selected>false</Selected>
+            <Entity>Cart</Entity>
+            <Quantity>1</Quantity>
+            <Note>Majestic - 4 Scheiben</Note>
+        </Item>
+        <Item Name="Ananasscheiben">
+			<Selected>false</Selected>
+            <Entity>Cart</Entity>
+            <Quantity>1</Quantity>
+            <Note>Quality - 10 Scheiben</Note>
+        </Item>
+        <Item Name="Toastbrot">
+			<Selected>false</Selected>
+            <Entity>Pk</Entity>
+            <Quantity>1</Quantity>
+            <Note>American 500g</Note>
+        </Item>
+        <Item Name="Nesquik Chocopulver">
+			<Selected>false</Selected>
+            <Entity>Stk</Entity>
+            <Quantity>1</Quantity>
+            <Note>2x1kg</Note>
+        </Item>
+        <Item Name="Blätterteig eckig">
+			<Selected>false</Selected>
+            <Entity>Pk</Entity>
+            <Quantity>1</Quantity>
+            <Note>2er-Pack M-Budget von Migros</Note>
+        </Item>
+        <Item Name="Kartoffelstock-Pulver">
+			<Selected>false</Selected>
+            <Entity>Cart</Entity>
+            <Quantity>1</Quantity>
+            <Note>Orange Packung von Migros</Note>
+        </Item>
+        <Item Name="Olivenöl">
+			<Selected>false</Selected>
+            <Entity>Fl</Entity>
+            <Quantity>1</Quantity>
+            <Note>1lt</Note>
+        </Item>
+        <Item Name="Knorr Bratensauce">
+			<Selected>false</Selected>
+            <Entity>Stk</Entity>
+            <Quantity>1</Quantity>
+            <Note>0.5kg - 1kg</Note>
+        </Item>
+        <Item Name="Chocoly Original Guetzli Wernli">
+			<Selected>false</Selected>
+            <Entity>Pk</Entity>
+            <Quantity>1</Quantity>
+            <Note>Pack à 3 Rollen</Note>
+        </Item>
+    </Section>
+    <Section Folded="true" Name="Non-Food">
+        <Item Name="Abfallsäcke gebührenpflichtig">
+			<Selected>false</Selected>
+            <Entity>Stk</Entity>
+            <Quantity>1</Quantity>
+            <Note/>
+        </Item>
+        <Item Name="Elmex Zahnpasta">
+			<Selected>false</Selected>
+            <Entity>Pk</Entity>
+            <Quantity>1</Quantity>
+            <Note>2er-Pack</Note>
+        </Item>
+        <Item Name="finish Geschirrspültabs">
+			<Selected>false</Selected>
+            <Entity>Pk</Entity>
+            <Quantity>1</Quantity>
+            <Note>182 stk, All-in-1</Note>
+        </Item>
+        <Item Name="finish Klarspüler">
+			<Selected>false</Selected>
+            <Entity>Pk</Entity>
+            <Quantity>1</Quantity>
+            <Note>Pk à 3Stk</Note>
+        </Item>
+        <Item Name="Vanish Oxi Action - rosa">
+			<Selected>false</Selected>
+            <Entity>Stk</Entity>
+            <Quantity>1</Quantity>
+            <Note>1.5 kg</Note>
+        </Item>
+    </Section>
+    <Section Folded="false" Name="Misc">
+        <Item Name="Appenzeller Fondue">
+			<Selected>false</Selected>
+            <Entity>Pk</Entity>
+            <Quantity>1</Quantity>
+            <Note>800g</Note>
+        </Item>
+        <Item Name="Kalk- und Urinstein-Entferner">
+			<Selected>false</Selected>
+            <Entity>Fl</Entity>
+            <Quantity>1</Quantity>
+            <Note>1lt ~6.90</Note>
         </Item>
     </Section>
 </OrderList>

@@ -43,6 +43,7 @@ Dialog {
                 width: parent.width
                 label: qsTr("Entity:")
                 value: (dialAccEntity !== "") ? dialAccEntity : defSelVal
+                currentIndex: -1
 
                 menu: ContextMenu {
                     id: entComboCM
@@ -55,7 +56,7 @@ Dialog {
                     }
                 }
 
-                onStateChanged: dialAccEntity = value = entities[currentIndex]
+                onCurrentIndexChanged: dialAccEntity = value = entities[currentIndex]
             }
 
             TextField {
@@ -80,6 +81,8 @@ Dialog {
                 width: parent.width
                 label: qsTr("Section:")
                 value: (dialAccSec !== "") ? dialAccSec : defSelVal
+                currentIndex: -1
+
                 menu: ContextMenu {
                     id: secComboCM
 
@@ -92,7 +95,7 @@ Dialog {
                     }
                 }
 
-                onStateChanged: dialAccSec = value = sections[currentIndex]
+                onCurrentIndexChanged: dialAccSec = value = sections[currentIndex]
             }
 
             TextField {

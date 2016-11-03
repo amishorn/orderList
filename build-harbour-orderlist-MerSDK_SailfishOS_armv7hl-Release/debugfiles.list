@@ -1,0 +1,8 @@
+%dir /usr/lib/debug
+%dir /usr/lib/debug/usr
+%dir /usr/lib/debug/usr/bin
+%dir /usr/lib/debug/.build-id
+%dir /usr/lib/debug/.build-id/ba
+/usr/lib/debug/usr/bin/harbour-orderlist.debug
+/usr/lib/debug/.build-id/ba/5ad0b5dce6e7423597eeddc05dc516b4c2994c.debug
+/usr/lib/debug/.build-id/ba/5ad0b5dce6e7423597eeddc05dc516b4c2994c

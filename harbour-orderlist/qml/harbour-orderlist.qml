@@ -42,6 +42,7 @@ ApplicationWindow
     allowedOrientations: Orientation.All
     _defaultPageOrientations: Orientation.All
 
+
     ConfigurationValue {
         id: cfgMailAddr
         key: '/cfgMailAddr'
@@ -56,6 +57,21 @@ ApplicationWindow
         id: cfgPostLTxt
         key: '/cfgPostLTxt'
         defaultValue: ""
+    }
+    ConfigurationValue {
+        id: cfgSaveEntries
+        key: '/cfgSaveEntries'
+        defaultValue: false
+    }
+    ConfigurationValue {
+        id: cfgSaveSelection
+        key: '/cfgSaveSelection'
+        defaultValue: false
+    }
+    ConfigurationValue {
+        id: cfgEnPushUpMenu
+        key: '/cfgEnPushUpMenu'
+        defaultValue: true
     }
 }
 

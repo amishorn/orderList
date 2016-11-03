@@ -2,9 +2,8 @@
 
 OListItem::OListItem(QObject *parent) : QObject(parent) { }
 
-OListItem::OListItem(const bool folded, const QString section, const QString name, const QString entity, const QString quantity, const QString note, QObject *parent)
-    : QObject(parent), _folded(folded), _section(section), _name(name), _entity(entity), _amount(quantity), _note(note) {
-    _selected = false;
+OListItem::OListItem(const bool folded, const QString section, const QString name, const bool selected, const QString entity, const QString quantity, const QString note, QObject *parent)
+    : QObject(parent), _folded(folded), _section(section), _name(name), _selected(selected), _entity(entity), _amount(quantity), _note(note) {
 }
 
 bool OListItem::selected() const {

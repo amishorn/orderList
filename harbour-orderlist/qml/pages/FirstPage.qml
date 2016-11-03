@@ -46,8 +46,21 @@ Page {
 
         VerticalScrollDecorator {}
 
+        MouseArea {
+            id: flMArea
+
+            anchors.fill: parent
+            enabled: false
+
+            onClicked: {
+                olModel.setQuantity(quantSelPanel.curItem, quantSelPanel.quantity)
+                quantSelPanel.hide()
+            }
+        }
+
         // PullDownMenu and PushUpMenu must be declared in SilicaFlickable, SilicaListView or SilicaGridView
         PullDownMenu {
+            id: flPDMenu
 
             MenuItem { // view Settings page
                 text: qsTr("Settings")
@@ -55,20 +68,44 @@ Page {
             }
 
             MenuItem { // Save current list to xml document
+                visible: !cfgSaveSelection.value
+                enabled: !cfgSaveSelection.value
                 text: qsTr("Save")
                 onClicked: olModel.exportList();
             }
 
+            MenuItem {
+                visible: cfgSaveSelection.value
+                enabled: cfgSaveSelection.value
+                text: qsTr("Clear Selection")
+                onClicked: olModel.clearSelection();
+            }
+
             MenuItem { // Add an item to the list
                 text: qsTr("Add Item")
+                onClicked: listView.appendItem()
+            }
+
+            MenuItem { // Send full list to default receiver
+                text: qsTr("Send")
                 onClicked: {
-                    var dialAddItem = pageStack.push(Qt.resolvedUrl("AddItem.qml"))
-                    dialAddItem.sections = olModel.getSections()
-                    dialAddItem.entities = olModel.getEntities()
-                    dialAddItem.accepted.connect(function() {
-                        olModel.addNewItem(listView.checkFolding(dialAddItem.dialAccSec), dialAddItem.dialAccSec, dialAddItem.dialAccName,
-                                           dialAddItem.dialAccEntity, "1", dialAddItem.dialAccNote)})
+                    Qt.openUrlExternally("mailto:" + cfgMailAddr.value +
+                                         "?subject=OrderList" +
+                                         "&body=" + cfgPreLTxt.value + "\n" +
+                                         olModel.getOrderListTxt() + "\n" +
+                                         cfgPostLTxt.value)
                 }
+            }
+        }
+
+        PushUpMenu {
+            id: flPUMenu
+            enabled: cfgEnPushUpMenu.value
+            visible: cfgEnPushUpMenu.value
+
+            MenuItem { // Add an item to the list
+                text: qsTr("Add Item")
+                onClicked: listView.appendItem()
             }
 
             MenuItem { // Send full list to default receiver
@@ -139,6 +176,22 @@ Page {
             }
         }
 
+        function appendItem() {
+            var dialAddItem = pageStack.push(Qt.resolvedUrl("AddItem.qml"),
+                                             {
+                                                 sections: olModel.getSections(),
+                                                 entities: olModel.getEntities()
+                                             }, PageStackAction.Immediate)
+
+            dialAddItem.accepted.connect(function() {
+                olModel.addNewItem(listView.checkFolding(dialAddItem.dialAccSec), dialAddItem.dialAccSec, dialAddItem.dialAccName,
+                                   false, dialAddItem.dialAccEntity, "1", dialAddItem.dialAccNote)})
+            if(cfgSaveEntries) {
+                dialAddItem.accepted.connect(function() {
+                    olModel.exportList()})
+            }
+        }
+
         function checkFolding(pSection) {
             var i=0
             while((i<olModel.count) && (pSection !== olModel.getRoleOfItem(i, "section"))) { i++ }
@@ -172,7 +225,11 @@ Page {
                     height: labelItem.height
                     anchors.top: parent.top
                     checked: selected
-                    onClicked: selected = checked
+
+                    onClicked: {
+                        selected = checked;
+                        if(cfgSaveSelection) olModel.exportList();
+                    }
                 }
 
                 Column {
@@ -218,13 +275,16 @@ Page {
                 MenuItem {
                     text: qsTr("Edit")
                     onClicked: {
-                        var dialAddItem = pageStack.push(Qt.resolvedUrl("AddItem.qml"))
-                        dialAddItem.dialAccSec = section
-                        dialAddItem.dialAccName = name
-                        dialAddItem.dialAccEntity = entity
-                        dialAddItem.dialAccNote = note
-                        dialAddItem.sections = olModel.getSections()
-                        dialAddItem.entities = olModel.getEntities()
+                        var dialAddItem = pageStack.push(Qt.resolvedUrl("AddItem.qml"),
+                                                         {
+                                                             dialAccSec: section,
+                                                             dialAccName: name,
+                                                             dialAccEntity: entity,
+                                                             dialAccNote: note,
+                                                             sections: olModel.getSections(),
+                                                             entities: olModel.getEntities(),
+                                                         }, PageStackAction.Immediate)
+
                         dialAddItem.accepted.connect(function() {
                             olModel.replaceItem(index, listView.checkFolding(dialAddItem.dialAccSec), dialAddItem.dialAccSec, dialAddItem.dialAccName,
                                                 dialAddItem.dialAccEntity, "1", dialAddItem.dialAccNote)})
@@ -238,43 +298,80 @@ Page {
                 }
 
             }
+
             onClicked: {
-                quantSlider.value = quantity
-                quantSelPanel.open = true
                 quantSelPanel.curItem = index
+                quantSelPanel.quantity = quantity
+                quantSelPanel.entity = entity
+                quantSelPanel.show()
             }
         }
 
         DockedPanel {
             id: quantSelPanel
+            height: quantSelector.height + quantLabel.height
 
             dock: Dock.Bottom
             width: parent.width
-            height: quantSlider.height
 
             property int curItem: 0
+            property int quantity: 0
+            property string entity: ""
 
-            Slider {
-                id: quantSlider
-
-                width: parent.width - dPAccButton.width
-                minimumValue: 1
-                maximumValue: 15
-                stepSize: 1
-                valueText: value
+            onQuantityChanged: {
+                quantSelector.coarse = quantity / 10
+                quantSelector.fine = quantity % 10
+                console.log(quantity)
             }
 
-            IconButton {
-                id: dPAccButton
+            onOpenChanged: {
+                flMArea.enabled = quantSelPanel.open
+            }
 
-                anchors.left: quantSlider.right
-                icon.source: "image://theme/icon-m-enter-accept"
+            Column {
+                id: quantColumn
+                anchors.top: parent.top
+                anchors.horizontalCenter: parent.horizontalCenter
 
-                onClicked: {
-                    olModel.setQuantity(quantSelPanel.curItem, quantSlider.value.toString())
-                    quantSelPanel.open = false
+                Label {
+                    id: quantLabel
+                    width: parent.width
+                    font.pixelSize: Theme.fontSizeHuge
+                    horizontalAlignment: Text.AlignHCenter
+                    text: quantSelPanel.quantity + " " + quantSelPanel.entity
+                }
+
+                QuantSelector {
+                    id: quantSelector
+                    height: Screen.width *4 / 5
+                    width: Screen.width *4 / 5
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    onCoarseChanged: quantSelPanel.quantity += quantSelector.cdelta *10
+                    onFineChanged: quantSelPanel.quantity += quantSelector.fdelta
                 }
             }
+
+//            Slider {
+//                id: quantSlider
+
+//                width: parent.width - dPAccButton.width
+//                minimumValue: 1
+//                maximumValue: 15
+//                stepSize: 1
+//                valueText: value
+//            }
+
+//            IconButton {
+//                id: dPAccButton
+
+//                anchors.left: quantSlider.right
+//                icon.source: "image://theme/icon-m-enter-accept"
+
+//                onClicked: {
+//                    olModel.setQuantity(quantSelPanel.curItem, quantSlider.value.toString())
+//                    quantSelPanel.open = false
+//                }
+//            }
         }
     }
 }
