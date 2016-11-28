@@ -41,6 +41,7 @@ import Sailfish.Silica 1.0
 Item {
     id: quantSelector
 
+    // number of sections per one full turn
     property int nCoasInt: 10
     property int nFineInt: 10
 
@@ -49,22 +50,26 @@ Item {
     property int fine: 0
     property int fdelta: 0
 
+    // setting if only natural numbers (only positive and 0) should be shown
+    property bool onlyNatNumbers: true
+
     property real _fineWidth: Theme.itemSizeExtraSmall
 
     width: screen.sizeCategory > Screen.Medium ? Theme.itemSizeLarge*4 : Theme.itemSizeMedium*4
     height: width
 
+    // updates the coarse selector if coarse is set from outside of this file
     onCoarseChanged: {
-        coarse = (coarse < 0 ? 0 : coarse)
+        coarse = ((coarse < 0 && onlyNatNumbers) ? 0 : coarse)
 
         if (mouse.changingProperty == 0) {
             var delta = (coarse - coarseIndicator.value) % nCoasInt
-            if ((delta > 12) || (delta < -12)) {
+            if ((delta > nCoasInt) || (delta < -nCoasInt)) {
                 // We don't want to animate for more than a full cycle
                 coarseIndicator.animationEnabled = false
 
-                coarseIndicator.value += (delta > 0 ? 12 : -12)
-                delta = (coarse - coarseIndicator.value) % 12
+                coarseIndicator.value += (delta > 0 ? nCoasInt : -nCoasInt)
+                delta = (coarse - coarseIndicator.value) % nCoasInt
 
                 coarseIndicator.animationEnabled = true
             }
@@ -73,12 +78,13 @@ Item {
         }
     }
 
+    // updates the fine selector if fine is set from outside of this file
     onFineChanged: {
-        fine = (fine < 0 ? 0 : fine)
+        fine = ((fine < 0 && onlyNatNumbers) ? 0 : fine)
 
         if (mouse.changingProperty == 0) {
             var delta = (fine - fineIndicator.value)
-            fineIndicator.value += (delta % 60)
+            fineIndicator.value += (delta % nFineInt)
         }
     }
 
@@ -208,7 +214,7 @@ Item {
                 var c = remapAngle(angle, nCoasInt)
                 var delta = (c - coarseIndicator.value) % nCoasInt
 
-                // It is not possible to make jumps of more than 6 coarse - reverse the direction
+                // It is not possible to make jumps of more than the half of #sections per full circle -> reverse the direction
                 if (delta > (nCoasInt/2)) {
                     delta -= nCoasInt
                 } else if (delta < -(nCoasInt/2)) {
@@ -219,6 +225,9 @@ Item {
                         isLagging = false
                     }
                 }
+
+                if(onlyNatNumbers)
+                    delta = (coarseIndicator.value + delta) < 0 ? coarseIndicator.value : delta
 
                 coarseIndicator.value += delta
 
@@ -233,7 +242,7 @@ Item {
 
                 var delta = (f - fineIndicator.value) % nFineInt
 
-                // It is not possible to make jumps of more than 30 fines - reverse the direction
+                // It is not possible to make jumps of more than the half of #sections per full circle -> reverse the direction
                 if (delta > (nFineInt/2)) {
                     delta -= nFineInt
                 } else if (delta < -(nFineInt/2)) {
@@ -244,6 +253,9 @@ Item {
                         isLagging = false
                     }
                 }
+
+                if(onlyNatNumbers)
+                    delta = (fineIndicator.value + delta) < 0 ? fineIndicator.value : delta
 
                 fineIndicator.value += delta
 

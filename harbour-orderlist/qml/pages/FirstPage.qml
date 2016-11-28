@@ -227,8 +227,8 @@ Page {
                     checked: selected
 
                     onClicked: {
-                        selected = checked;
-                        if(cfgSaveSelection) olModel.exportList();
+                        selected = checked
+                        if(cfgSaveSelection) olModel.exportList()
                     }
                 }
 
@@ -265,12 +265,18 @@ Page {
                 id: lItemCM
                 MenuItem {
                     text: qsTr("Move Up")
-                    onClicked: olModel.moveItemUp(index)
+                    onClicked: {
+                        olModel.moveItemUp(index)
+                        if(cfgSaveEntries) olModel.exportList()
+                    }
                     enabled: (index > 0)
                 }
                 MenuItem {
                     text: qsTr("Remove")
-                    onClicked: olModel.removeItem(index)
+                    onClicked: {
+                        olModel.removeItem(index)
+                        if(cfgSaveEntries) olModel.exportList()
+                    }
                 }
                 MenuItem {
                     text: qsTr("Edit")
@@ -287,13 +293,20 @@ Page {
 
                         dialAddItem.accepted.connect(function() {
                             olModel.replaceItem(index, listView.checkFolding(dialAddItem.dialAccSec), dialAddItem.dialAccSec, dialAddItem.dialAccName,
-                                                dialAddItem.dialAccEntity, "1", dialAddItem.dialAccNote)})
+                                                selected, dialAddItem.dialAccEntity, "1", dialAddItem.dialAccNote)})
+                        if(cfgSaveEntries) {
+                            dialAddItem.accepted.connect(function() {
+                                olModel.exportList()})
+                        }
                     }
                 }
 
                 MenuItem {
                     text: qsTr("Move Down")
-                    onClicked: olModel.moveItemDown(index)
+                    onClicked: {
+                        olModel.moveItemDown(index)
+                        if(cfgSaveEntries) olModel.exportList()
+                    }
                     enabled: (index+1 < olModel.count)
                 }
 
@@ -318,14 +331,13 @@ Page {
             property int quantity: 0
             property string entity: ""
 
-            onQuantityChanged: {
-                quantSelector.coarse = quantity / 10
-                quantSelector.fine = quantity % 10
-                console.log(quantity)
-            }
-
             onOpenChanged: {
                 flMArea.enabled = quantSelPanel.open
+                if(open) {
+                    quantSelector.coarse = quantity / 10
+                    quantSelector.fine = quantity % 10
+                    console.log(quantity)
+                }
             }
 
             Column {
@@ -350,28 +362,6 @@ Page {
                     onFineChanged: quantSelPanel.quantity += quantSelector.fdelta
                 }
             }
-
-//            Slider {
-//                id: quantSlider
-
-//                width: parent.width - dPAccButton.width
-//                minimumValue: 1
-//                maximumValue: 15
-//                stepSize: 1
-//                valueText: value
-//            }
-
-//            IconButton {
-//                id: dPAccButton
-
-//                anchors.left: quantSlider.right
-//                icon.source: "image://theme/icon-m-enter-accept"
-
-//                onClicked: {
-//                    olModel.setQuantity(quantSelPanel.curItem, quantSlider.value.toString())
-//                    quantSelPanel.open = false
-//                }
-//            }
         }
     }
 }

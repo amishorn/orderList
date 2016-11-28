@@ -83,17 +83,17 @@
     </message>
     <message>
         <location filename="../qml/pages/FirstPage.qml" line="164"/>
-        <location filename="../qml/pages/FirstPage.qml" line="295"/>
+        <location filename="../qml/pages/FirstPage.qml" line="305"/>
         <source>Move Down</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/FirstPage.qml" line="272"/>
+        <location filename="../qml/pages/FirstPage.qml" line="275"/>
         <source>Remove</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../qml/pages/FirstPage.qml" line="276"/>
+        <location filename="../qml/pages/FirstPage.qml" line="282"/>
         <source>Edit</source>
         <translation type="unfinished"></translation>
     </message>

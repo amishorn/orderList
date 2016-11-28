@@ -282,12 +282,14 @@ void OLModel::moveItemUp(int index) {
 
     if(index > 0) {
         if(_oList[index]->section() != _oList[index-1]->section()) {
-            _oList[index]->setSection(_oList[index-1]->section());
             _oList[index]->setFolded(_oList[index-1]->folded());
+            _oList[index]->setSection(_oList[index-1]->section());
+            emit QAbstractItemModel::dataChanged(createIndex(index,1), createIndex(index,1), roleNames().keys().toVector());
         }
         else {
             beginMoveRows(QModelIndex(), index, index, QModelIndex(), index -1);
             _oList.move(index, index -1);
+            qDebug() << "item moved";
             endMoveRows();
         }
     }
@@ -299,6 +301,7 @@ void OLModel::moveItemDown(int index) {
         if(_oList[index]->section() != _oList[index+1]->section()) {
             _oList[index]->setSection(_oList[index+1]->section());
             _oList[index]->setFolded(_oList[index+1]->folded());
+            emit QAbstractItemModel::dataChanged(createIndex(index,1), createIndex(index,1), roleNames().keys().toVector());
         }
         else {
             beginMoveRows(QModelIndex(), index, index, QModelIndex(), index +2);
@@ -429,7 +432,7 @@ QString OLModel::getOrderListTxt() {
             oListTxt += ("- " + (*i)->quantity() +
                          "\t" + (*i)->entity() +
                          "\t" + (*i)->name() +
-                         (((*i)->note() != "") ? "" : ("(" + (*i)->note() + ")\n")));
+                         (((*i)->note() != "") ? (" (" + (*i)->note() + ")\n") : "\n"));
         }
         i++;
     }
