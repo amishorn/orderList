@@ -39,10 +39,12 @@ Page {
 
         id: listView
         anchors.fill: parent
+        focus: true
 
-        move: Transition {
-            NumberAnimation { properties: "x,y"; duration: 500 }
-        }
+//        move: Transition {
+//            id: vTransition
+//            NumberAnimation { properties: "y"; duration: 500 }
+//        }
 
         VerticalScrollDecorator {}
 
@@ -68,17 +70,17 @@ Page {
             }
 
             MenuItem { // Save current list to xml document
-                visible: !cfgSaveSelection.value
-                enabled: !cfgSaveSelection.value
+                visible: !cfgSaveEntries.value
+                enabled: !cfgSaveEntries.value
                 text: qsTr("Save")
-                onClicked: olModel.exportList();
+                onClicked: olModel.exportList()
             }
 
             MenuItem {
                 visible: cfgSaveSelection.value
                 enabled: cfgSaveSelection.value
                 text: qsTr("Clear Selection")
-                onClicked: olModel.clearSelection();
+                onClicked: olModel.clearSelection()
             }
 
             MenuItem { // Add an item to the list
@@ -170,6 +172,8 @@ Page {
                             case 2: olModel.moveSectionDown(section); break
                             default: break
                             }
+
+                            if(cfgSaveEntries.value) olModel.exportList()
                         }
                     }
                 }
@@ -186,7 +190,7 @@ Page {
             dialAddItem.accepted.connect(function() {
                 olModel.addNewItem(listView.checkFolding(dialAddItem.dialAccSec), dialAddItem.dialAccSec, dialAddItem.dialAccName,
                                    false, dialAddItem.dialAccEntity, "1", dialAddItem.dialAccNote)})
-            if(cfgSaveEntries) {
+            if(cfgSaveEntries.value) {
                 dialAddItem.accepted.connect(function() {
                     olModel.exportList()})
             }
@@ -199,22 +203,106 @@ Page {
             else return false
         }
 
+
         delegate: ListItem {
             id: listItem
             parent: listView
+            focus: true
             width: parent.width
             menu: lItemCM
-
-            ListView.onAdd: AddAnimation {
-                target: listItem
-            }
-
-            ListView.onRemove: RemoveAnimation {
-                target: listItem
-            }
-
             visible: !folded
             height: (folded) ? 0 : Theme.itemSizeSmall + lItemCM.height
+
+            property int mNextIndex: -1
+            property int mYPos: -1
+
+            ListView.onAdd: listView.positionViewAtIndex(index, ListView.Visible)
+            ListView.onRemove: animateRemoval(listItem)
+
+            Timer {
+                id: lITimer
+
+                interval: 1000
+                onTriggered: {
+                    stop()
+
+                    // initiate move
+                    listItem.highlighted = false
+                    listItem.down = true
+                    lItemCM.active = false
+                    drag.target = listItem
+                    drag.axis = Drag.YAxis
+                    drag.threshold = 2
+
+                    // update current state
+                    var curPos = mapToItem(listView.contentItem, mouseX, mouseY)
+                    listItem.mYPos = curPos.y
+                    listItem.mNextIndex = listView.indexAt(curPos.x, curPos.y + height)
+                }
+            }
+
+            onPressed: highlighted = true
+
+            onClicked: {
+                quantSelPanel.curItem = index
+                quantSelPanel.quantity = quantity
+                quantSelPanel.entity = entity
+                quantSelPanel.show()
+                console.log("current index: " + index)
+            }
+
+            onPressAndHold: {
+                lITimer.start()
+            }
+
+            onPositionChanged: {
+                if(drag.target){
+                    var move = "no"
+                    var curPos = mapToItem(listView.contentItem, mouse.x, mouse.y)
+                    var tarIndex = listView.indexAt(curPos.x, curPos.y)
+                    var nextIndex = listView.indexAt(curPos.x, curPos.y + height)
+
+                    // detect moving direction
+                    if(curPos.y > mYPos) move = "down"
+                    if(curPos.y < mYPos) move = "up"
+
+                    // move items according direction and current position
+                    if(move === "up")
+                        if(tarIndex < index && tarIndex !== -1)
+                            olModel.moveItemUp(index)
+                    if(move === "down")
+                        if(nextIndex !== mNextIndex)
+                            olModel.moveItemDown(index)
+
+                    mYPos = curPos.y
+                    mNextIndex = nextIndex
+
+                    if(cfgSaveEntries.value) olModel.exportList()
+                }
+            }
+
+            onCanceled: { console.log("mouse canceled - current item: " + index)
+                if(drag.target) {
+                    drag.target = null
+                    olModel.updateEntry(index)
+                }
+
+                listItem.highlighted = false
+            }
+
+            onReleased: {
+                console.log("mouse released - current item: " + index)
+
+                if(drag.target) {
+                    drag.target = null
+                    olModel.updateEntry(index)
+                }
+
+                if(lITimer.running)
+                    lITimer.stop()
+
+                listItem.highlighted = false
+            }
 
             Row {
                 id: litemRow
@@ -260,24 +348,28 @@ Page {
                 }
             }
 
-
             ContextMenu {
                 id: lItemCM
-                MenuItem {
-                    text: qsTr("Move Up")
-                    onClicked: {
-                        olModel.moveItemUp(index)
-                        if(cfgSaveEntries) olModel.exportList()
-                    }
-                    enabled: (index > 0)
-                }
+
+//                MenuItem {
+//                    text: qsTr("Move Up")
+//                    onClicked: {
+//                        olModel.moveItemUp(index)
+//                        if(cfgSaveEntries.value) olModel.exportList()
+//                    }
+//                    enabled: (index > 0)
+//                }
+
+                on_HighlightedItemChanged: lITimer.stop()
+
                 MenuItem {
                     text: qsTr("Remove")
                     onClicked: {
-                        olModel.removeItem(index)
-                        if(cfgSaveEntries) olModel.exportList()
+                        remorseAction("Deleting", function() { olModel.removeItem(index) })
+                        if(cfgSaveEntries.value) olModel.exportList()
                     }
                 }
+
                 MenuItem {
                     text: qsTr("Edit")
                     onClicked: {
@@ -294,29 +386,21 @@ Page {
                         dialAddItem.accepted.connect(function() {
                             olModel.replaceItem(index, listView.checkFolding(dialAddItem.dialAccSec), dialAddItem.dialAccSec, dialAddItem.dialAccName,
                                                 selected, dialAddItem.dialAccEntity, "1", dialAddItem.dialAccNote)})
-                        if(cfgSaveEntries) {
+                        if(cfgSaveEntries.value) {
                             dialAddItem.accepted.connect(function() {
                                 olModel.exportList()})
                         }
                     }
                 }
 
-                MenuItem {
-                    text: qsTr("Move Down")
-                    onClicked: {
-                        olModel.moveItemDown(index)
-                        if(cfgSaveEntries) olModel.exportList()
-                    }
-                    enabled: (index+1 < olModel.count)
-                }
-
-            }
-
-            onClicked: {
-                quantSelPanel.curItem = index
-                quantSelPanel.quantity = quantity
-                quantSelPanel.entity = entity
-                quantSelPanel.show()
+//                MenuItem {
+//                    text: qsTr("Move Down")
+//                    onClicked: {
+//                        olModel.moveItemDown(index)
+//                        if(cfgSaveEntries.value) olModel.exportList()
+//                    }
+//                    enabled: (index+1 < olModel.count)
+//                }
             }
         }
 

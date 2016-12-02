@@ -35,6 +35,7 @@ public:
 
     int count();
 
+    Q_INVOKABLE void updateEntry(int index);
     Q_INVOKABLE bool importList();
     Q_INVOKABLE bool exportList();
     Q_INVOKABLE void clearSelection();

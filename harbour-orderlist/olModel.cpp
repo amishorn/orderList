@@ -125,6 +125,10 @@ int OLModel::count() {
     return rowCount(QModelIndex());
 }
 
+void OLModel::updateEntry(int index) {
+    emit QAbstractItemModel::dataChanged(createIndex(index,1), createIndex(index,1), roleNames().keys().toVector());
+}
+
 bool OLModel::importList() {
 
     QDomDocument doc(_olCustListURI);
