@@ -55,7 +55,10 @@ Page {
             enabled: false
 
             onClicked: {
-                olModel.setQuantity(quantSelPanel.curItem, quantSelPanel.quantity)
+                if(quantSelPanel.quantity !== quantSelPanel.initQuant) {
+                    olModel.setQuantity(quantSelPanel.curItem, quantSelPanel.quantity)
+                    if(cfgSaveEntries) olModel.exportList()
+                }
                 quantSelPanel.hide()
             }
         }
@@ -246,6 +249,7 @@ Page {
             onClicked: {
                 quantSelPanel.curItem = index
                 quantSelPanel.quantity = quantity
+                quantSelPanel.initQuant = quantity
                 quantSelPanel.entity = entity
                 quantSelPanel.show()
                 console.log("current index: " + index)
@@ -290,9 +294,7 @@ Page {
                 listItem.highlighted = false
             }
 
-            onReleased: {
-                console.log("mouse released - current item: " + index)
-
+            onReleased: { console.log("mouse released - current item: " + index)
                 if(drag.target) {
                     drag.target = null
                     olModel.updateEntry(index)
@@ -351,15 +353,7 @@ Page {
             ContextMenu {
                 id: lItemCM
 
-//                MenuItem {
-//                    text: qsTr("Move Up")
-//                    onClicked: {
-//                        olModel.moveItemUp(index)
-//                        if(cfgSaveEntries.value) olModel.exportList()
-//                    }
-//                    enabled: (index > 0)
-//                }
-
+                // a context menu item gets active -> stop timer
                 on_HighlightedItemChanged: lITimer.stop()
 
                 MenuItem {
@@ -392,15 +386,6 @@ Page {
                         }
                     }
                 }
-
-//                MenuItem {
-//                    text: qsTr("Move Down")
-//                    onClicked: {
-//                        olModel.moveItemDown(index)
-//                        if(cfgSaveEntries.value) olModel.exportList()
-//                    }
-//                    enabled: (index+1 < olModel.count)
-//                }
             }
         }
 
@@ -413,14 +398,15 @@ Page {
 
             property int curItem: 0
             property int quantity: 0
+            property int initQuant: 0
             property string entity: ""
 
             onOpenChanged: {
                 flMArea.enabled = quantSelPanel.open
                 if(open) {
-                    quantSelector.coarse = quantity / 10
-                    quantSelector.fine = quantity % 10
-                    console.log(quantity)
+                    quantSelector.value = quantity
+//                    quantSelector.coarse = quantity / 10
+//                    quantSelector.fine = quantity % 10
                 }
             }
 
@@ -442,8 +428,9 @@ Page {
                     height: Screen.width *4 / 5
                     width: Screen.width *4 / 5
                     anchors.horizontalCenter: parent.horizontalCenter
-                    onCoarseChanged: quantSelPanel.quantity += quantSelector.cdelta *10
-                    onFineChanged: quantSelPanel.quantity += quantSelector.fdelta
+                    onValueChanged: quantSelPanel.quantity = value
+//                    onCoarseChanged: quantSelPanel.quantity += quantSelector.cdelta *10
+//                    onFineChanged: quantSelPanel.quantity += quantSelector.fdelta
                 }
             }
         }

@@ -2,7 +2,7 @@
 %dir /usr/lib/debug/usr
 %dir /usr/lib/debug/usr/bin
 %dir /usr/lib/debug/.build-id
-%dir /usr/lib/debug/.build-id/4b
+%dir /usr/lib/debug/.build-id/3f
 /usr/lib/debug/usr/bin/harbour-orderlist.debug
-/usr/lib/debug/.build-id/4b/49de16b9337ad765b10c595ed6506de911d71e.debug
-/usr/lib/debug/.build-id/4b/49de16b9337ad765b10c595ed6506de911d71e
+/usr/lib/debug/.build-id/3f/1f31d45ac4dd004454872b64a5f8903eb98634
+/usr/lib/debug/.build-id/3f/1f31d45ac4dd004454872b64a5f8903eb98634.debug

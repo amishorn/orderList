@@ -40,6 +40,8 @@ OTHER_FILES += \
 
 SAILFISHAPP_ICONS = 86x86 108x108 128x128 256x256
 
+DEFINES += APP_VERSION=\\\"$$VERSION\\\"
+
 # to disable building translations every time, comment out the
 # following CONFIG line
 CONFIG += sailfishapp_i18n \ DConf
@@ -64,5 +66,7 @@ DISTFILES += \
     rpm/harbour-orderlist.spec \
     rpm/harbour-orderlist.yaml \
     qml/harbour-orderlist.qml \
-    qml/pages/QuantSelector.qml
+    qml/pages/QuantSelector.qml \
+    AboutPage.qml \
+    qml/pages/AboutPage.qml
 

@@ -56,6 +56,7 @@ int main(int argc, char *argv[])
 
 //    view->rootContext()->setContextProperty("shListModel", QVariant::fromValue(_shListHandler->shList()));
 
+    view->rootContext()->setContextProperty("APP_VERSION", APP_VERSION);
     view->setSource(SailfishApp::pathTo("qml/harbour-orderlist.qml"));
     view->show();
 

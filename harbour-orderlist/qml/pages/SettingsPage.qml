@@ -11,6 +11,17 @@ Page {
 
         VerticalScrollDecorator {}
 
+        PullDownMenu {
+            id: spPDMenu
+
+            MenuItem {
+                id: sppdmAbout
+
+                text: qsTr("About")
+                onClicked: pageStack.push(Qt.resolvedUrl("AboutPage.qml"))
+            }
+        }
+
         Column {
             id: column
             width: parent.width

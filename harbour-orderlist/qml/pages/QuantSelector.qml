@@ -45,10 +45,12 @@ Item {
     property int nCoasInt: 10
     property int nFineInt: 10
 
-    property int coarse: 0
-    property int cdelta: 0
-    property int fine: 0
-    property int fdelta: 0
+    // incrementations per step
+    property int coarseInc: 10
+    property int fineInc: 1
+
+    // value mapped to and displayed by indicators
+    property int value: 0
 
     // setting if only natural numbers (only positive and 0) should be shown
     property bool onlyNatNumbers: true
@@ -58,34 +60,9 @@ Item {
     width: screen.sizeCategory > Screen.Medium ? Theme.itemSizeLarge*4 : Theme.itemSizeMedium*4
     height: width
 
-    // updates the coarse selector if coarse is set from outside of this file
-    onCoarseChanged: {
-        coarse = ((coarse < 0 && onlyNatNumbers) ? 0 : coarse)
-
-        if (mouse.changingProperty == 0) {
-            var delta = (coarse - coarseIndicator.value) % nCoasInt
-            if ((delta > nCoasInt) || (delta < -nCoasInt)) {
-                // We don't want to animate for more than a full cycle
-                coarseIndicator.animationEnabled = false
-
-                coarseIndicator.value += (delta > 0 ? nCoasInt : -nCoasInt)
-                delta = (coarse - coarseIndicator.value) % nCoasInt
-
-                coarseIndicator.animationEnabled = true
-            }
-
-            coarseIndicator.value += delta
-        }
-    }
-
-    // updates the fine selector if fine is set from outside of this file
-    onFineChanged: {
-        fine = ((fine < 0 && onlyNatNumbers) ? 0 : fine)
-
-        if (mouse.changingProperty == 0) {
-            var delta = (fine - fineIndicator.value)
-            fineIndicator.value += (delta % nFineInt)
-        }
+    onValueChanged: {
+        coarseIndicator.value = Math.floor(value / nCoasInt)
+        fineIndicator.value = Math.floor(value % nFineInt)
     }
 
     function _xTranslation(value, bound) {
@@ -226,19 +203,14 @@ Item {
                     }
                 }
 
-                if(onlyNatNumbers)
-                    delta = (coarseIndicator.value + delta) < 0 ? coarseIndicator.value : delta
+                delta *= coarseInc
 
-                coarseIndicator.value += delta
+                if(onlyNatNumbers && (quantSelector.value + delta < 0)) delta = 0
 
-                quantSelector.cdelta = delta
-                quantSelector.coarse = c
+                quantSelector.value += delta
             } else { // Fine
                 // Map angular position to 1 - nFineInt
                 var f = remapAngle(angle, nFineInt)
-
-                // Round single touch to the nearest 5 min mark
-//                if (!isMoving) m = (Math.round(m/5) * 5) % 60
 
                 var delta = (f - fineIndicator.value) % nFineInt
 
@@ -254,13 +226,11 @@ Item {
                     }
                 }
 
-                if(onlyNatNumbers)
-                    delta = (fineIndicator.value + delta) < 0 ? fineIndicator.value : delta
+                delta *= fineInc
 
-                fineIndicator.value += delta
+                if(onlyNatNumbers && (quantSelector.value + delta < 0)) delta = 0
 
-                quantSelector.fdelta = delta
-                quantSelector.fine = f
+                quantSelector.value += delta
             }
         }
 

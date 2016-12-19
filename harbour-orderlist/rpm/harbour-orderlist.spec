@@ -41,7 +41,8 @@ With this app you can create, save and change a fully customized order list in a
 # >> build pre
 # << build pre
 
-%qtc_qmake5 
+%qtc_qmake5 \
+VERSION='%{version}-%{release}'
 
 %qtc_make %{?_smp_mflags}
 
