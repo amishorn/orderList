@@ -1,6 +1,6 @@
 Name: harbour-orderlist
 Summary: My SailfishOS Application
-Version: 0.1
+Version: 0.2
 Release: 1
 # The contents of the Group field should be one of the groups listed here:
 # http://gitorious.org/meego-developer-tools/spectacle/blobs/master/data/GROUPS
@@ -12,7 +12,7 @@ License: LICENSE
 Sources:
 - '%{name}-%{version}.tar.bz2'
 Description: |
-  With this app you can create, save and change a fully customized order list in an easy way. Once, the list is created, an order can be placed very quickly by selecting the desired items and setting a quantity. If it is completed, the list can be sent via an e-mail, right out of the app without any copy-paste action.
+  With this app you are able to create, save and change a fully customized order list in an easy way. Once the list is created, an order can very quickly be composed by selecting the desired items and setting quantities. Finally, the order can be placed by sending an e-mail right out of the app and without any copy-paste action.
 Configure: none
 # The qtc5 builder inserts macros to allow QtCreator to have fine
 # control over qmake/make execution
