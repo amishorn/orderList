@@ -8,8 +8,12 @@
 # * date Author's Name <author's email> version-release
 # - Summary of changes
 
-* Sun Apr 13 2014 Jack Tar <jack.tar@example.com> 0.0.1-1
-- Scrubbed the deck
-- Hoisted the sails
+* Sun Feb 26 2017 Ramón Christen <hiroshima@bluewin.ch> 0.2-1
+- Drag'n'drop of list items
+- Coarse and fine circle for amount setting
+- Setting save list when modified
+- Setting save selections
+- An optional push-up menu
+- Additional about page (in settings) with a short description
 
 

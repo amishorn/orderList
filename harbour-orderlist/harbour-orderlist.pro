@@ -62,11 +62,11 @@ QT += core \
 DISTFILES += \
     qml/pages/SettingsPage.qml \
     harbour-orderlist.desktop \
-    rpm/harbour-orderlist.changes.in \
     rpm/harbour-orderlist.spec \
     rpm/harbour-orderlist.yaml \
     qml/harbour-orderlist.qml \
     qml/pages/QuantSelector.qml \
     AboutPage.qml \
-    qml/pages/AboutPage.qml
+    qml/pages/AboutPage.qml \
+    rpm/harbour-orderlist.changes
 

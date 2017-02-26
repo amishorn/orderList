@@ -37,11 +37,14 @@ Page {
                 wrapMode: Text.WordWrap
                 font.pixelSize: Theme.fontSizeSmall
 
-                text: qsTr( "This app allows you to easily place an order of item by mail, that are quite frequently used.\
-In behind, there is an .xml database where all listed items are stored and that is, depending on the settings,\
-updated when the list is changed. By means of the 'Add Item' dialog, items can be appended to the list, whereby,\
-they are always appended to a section. Sections can be moved up and downwards over the context menu of them. Entires,\
-however, are moved per drag and drop. In order to drag an item, press and hold down until the context menu disappears." )
+                text: qsTr( "This app allows you to easily place an order by mail for items that you quite frequently use.\
+In behind, there is an .xml database where all listed items are stored and that is (depending on your settings)\
+updated when the list is changed. By means of the 'Add Item' dialog items can be appended to the list, whereby,\
+they are always appended to a section. The sections can be moved up and down over the context menu. Entries\
+however, can be moved per drag and drop where they are dragged by means of a press and hold down on an item\
+until the context menu disappears.
+As soon as you have added at least one item to the list, it also be maintained by means of a common text editor. The backend order list file custOrderList.xml is stored in the folder:
+.local/share/harbour-orderlist/harbour-orderlist/" )
             }
 
             SectionHeader {

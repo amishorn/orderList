@@ -12,7 +12,7 @@ License: LICENSE
 Sources:
 - '%{name}-%{version}.tar.bz2'
 Description: |
-  With this app you are able to create, save and change a fully customized order list in an easy way. Once the list is created, an order can very quickly be composed by selecting the desired items and setting quantities. Finally, the order can be placed by sending an e-mail right out of the app and without any copy-paste action.
+With this app you can create, save and change a fully customized order list in an easy way. Once, the list is created, an order can be placed very quickly by selecting the desired items and setting a quantity. If it is completed, the list can be sent via an e-mail, right out of the app without any copy-paste action.\nAs soon as you have added at least one item to the order list, you can it also maintain by means of a common text editor. The backend order list file custOrderList.xml is stored in the folder:\n.local/share/harbour-orderlist/harbour-orderlist/
 Configure: none
 # The qtc5 builder inserts macros to allow QtCreator to have fine
 # control over qmake/make execution

@@ -25,7 +25,7 @@
     </message>
     <message>
         <location filename="../qml/pages/AboutPage.qml" line="64"/>
-        <source>For suggestions or any questions, please, don&apos;t hesitate to contact me:</source>
+        <source>For suggestions or any questions, please don&apos;t hesitate to contact me:</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

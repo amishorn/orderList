@@ -41,10 +41,10 @@ public:
     void setNote(QString note);
 
 private:
-    bool _selected;
     bool _folded;
     QString _section;
     QString _name;
+    bool _selected;
     QString _entity;
     QString _amount;
     QString _note;

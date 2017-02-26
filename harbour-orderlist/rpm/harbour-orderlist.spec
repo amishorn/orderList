@@ -13,7 +13,7 @@ Name:       harbour-orderlist
 %{!?qtc_make:%define qtc_make make}
 %{?qtc_builddir:%define _builddir %qtc_builddir}
 Summary:    My SailfishOS Application
-Version:    0.1
+Version:    0.2
 Release:    1
 Group:      Qt/Qt
 License:    LICENSE
@@ -28,8 +28,7 @@ BuildRequires:  pkgconfig(Qt5Quick)
 BuildRequires:  desktop-file-utils
 
 %description
-With this app you can create, save and change a fully customized order list in an easy way. Once, the list is created, an order can be placed very quickly by selecting the desired items and setting a quantity. If it is completed, the list can be sent via an e-mail, right out of the app without any copy-paste action.
-
+With this app you can create, save and change a fully customized order list in an easy way. Once, the list is created, an order can be placed very quickly by selecting the desired items and setting a quantity. If it is completed, the list can be sent via an e-mail, right out of the app without any copy-paste action.\nAs soon as you have added at least one item to the order list, you can it also maintain by means of a common text editor. The backend order list file custOrderList.xml is stored in the folder:\n.local/share/harbour-orderlist/harbour-orderlist/
 
 %prep
 %setup -q -n %{name}-%{version}
